@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="redditApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ADV Routes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="stylesheet" href="main.css">
+  </head>
+
+  <body ng-controller="PostController as postCtrl">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo" style="margin-left: 40px">ADV Routes</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li  class="search">
+            <input type="text" ng-model="postCtrl.search" placeholder="test"></input>
+          </li>
+          <li>
+            <select class="browser-default" ng-model="postCtrl.selectVal">
+              <option value=""selected>Sort By</option>
+              <option value="title">Title (Desc)</option>
+              <option value="-title">Title (Asc)</option>
+              <option value="likes">Likes (Desc)</option>
+              <!-- <option value="-likes">Likes (Asc)</option> -->
+            </select>
+          </li>
+          <li><a href="#" ng-click="myVar = !myVar" class="btn">Add a Route</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <div class="add_post" ng-show="myVar">
+        <form class="container form" ng-submit="postCtrl.addPost(post)" name="form" novalidate>
+          <div class="input-field">
+            <label for="title">Title: </label>
+              <input type="text" name="title" ng-model="post.title">
+          </div>
+          <div class="input-field">
+            <label for="author">Author: </label>
+              <input type="text" name="author" ng-model="post.author">
+          </div>
+          <div class="input-field">
+          <label for="image_url">Image URL: </label>
+            <input type="text" name="image_url" ng-model="post.image_url">
+          </div>
+          <div class="input-field">
+          <label for="Description">Description: </label>
+            <input type="text" name="Description" ng-model="post.description">
+          </div>
+          <input type="submit" value="submit">
+        </form>
+      </div>
+      <div class="col s12 m7" ng-repeat="post in postCtrl.posts | orderBy:postCtrl.selectVal | filter:postCtrl.search">
+        <!-- <h2 class="header">Horizontal Card</h2> -->
+        <div class="card horizontal">
+          <div class="card-image">
+            <img ng-src="{{post.image_url}}" class="post_img">
+          </div>
+          <div class="card-stacked">
+            <div class="card-content">
+              <div class="row">
+                <h5>{{post.title}} |
+                  <a href="#"ng-click="postCtrl.voteUp(post)">⬆</a>
+                  <a href="#"ng-click="postCtrl.voteDown(post)">⬇</a> |  {{post.likes}}</h5>
+                <p>{{post.author}}</p>
+              </div>
+                <p>{{post.content}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers.js"></script>
+
+  </body>
+</html>
