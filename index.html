@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <title>ADV Routes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="stylesheet" href="main.css">
   </head>
 
   <body ng-controller="PostController as postCtrl">
-    <nav>
+    <nav class="nav">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo" style="margin-left: 40px">ADV Routes</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -16,7 +18,7 @@
             <input type="text" ng-model="postCtrl.search" placeholder="test"></input>
           </li>
           <li>
-            <select class="browser-default" ng-model="postCtrl.selectVal">
+            <select ng-model="postCtrl.selectVal">
               <option value=""selected>Sort By</option>
               <option value="title">Title (Desc)</option>
               <option value="-title">Title (Asc)</option>
@@ -24,7 +26,9 @@
               <!-- <option value="-likes">Likes (Asc)</option> -->
             </select>
           </li>
-          <li><a href="#" ng-click="myVar = !myVar" class="btn">Add a Route</a></li>
+          <li>
+            <a href="#" ng-click="myVar = !myVar" class="btn">Add a Route</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -51,11 +55,11 @@
           <input type="submit" value="submit">
         </form>
       </div>
-      <div class="col s12 m7" ng-repeat="post in postCtrl.posts | orderBy:postCtrl.selectVal | filter:postCtrl.search">
+      <div class="col s12 m7" ng-repeat="post in posts | orderBy:postCtrl.selectVal | filter:postCtrl.search">
         <!-- <h2 class="header">Horizontal Card</h2> -->
         <div class="card horizontal">
           <div class="card-image">
-            <img ng-src="{{post.image_url}}" class="post_img">
+            <img class="post_img" ng-src="{{post.image_url}}">
           </div>
           <div class="card-stacked">
             <div class="card-content">
@@ -66,12 +70,48 @@
                 <p>{{post.author}}</p>
               </div>
                 <p>{{post.content}}</p>
+                <div class="row">
+                  <ul class="time_comment">
+                    <p class="col s4">Posted: Yesterday at 7:05 PM</p>
+                    <p class="col s4" ng-click="toggle_comment = !toggle_comment"><i class="material-icons">insert_comment</i> {{post.comments.length}} Comments</p>
+                    <p class="col s4" ng-click="toggle_comment_add = !toggle_comment_add"><i class="material-icons">note_add</i> Add Comment</p>
+                  </ul>
+                </div>
             </div>
           </div>
+
         </div>
+
+        <!-- Input for a new comment -->
+        <div class="add_comment" ng-show="toggle_comment_add" ng-controller="CommentController as commentCtrl" ng-model="comment">
+          <form class="container form" ng-submit="commentCtrl.addComment(comment, post)" name="form" novalidate>
+            <div class="input-field">
+              <label for="author">Author: </label>
+                <input type="text" name="author" ng-model="comment.author">
+            </div>
+            <div class="input-field">
+              <label for="comment">Comment: </label>
+                <input type="text" name="comment" ng-model="comment.comment">
+            </div>
+            <input type="submit" value="submit">
+          </form>
+        </div>
+
+        <!-- Show Comments on Click -->
+        <div ng-show="toggle_comment" ng-repeat="comment in post.comments">
+          <p>
+            <strong>{{comment.author}}</strong> - {{comment.comment}}
+          </p>
+        </div>
+
+
       </div>
     </main>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="components/moment/moment.js"></script>
+    <script src="components/angular-moment/angular-moment.js"></script>
     <script src="app.js"></script>
     <script src="controllers.js"></script>
 

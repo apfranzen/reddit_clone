@@ -1,12 +1,16 @@
 .post_img {
   max-height: 250px;
-  min-width: 250px;
+  max-width: 250px;
 }
 
 .brand-logo {
   left-margin: 40px;
 }
 
-.search {
-  margin-bottom: 0px;
+.nav {
+  margin-bottom: 40px;
 }
+
+/*.time_comment {
+  display: inline;
+}*/
